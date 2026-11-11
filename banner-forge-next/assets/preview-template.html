@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banner Preview</title>
+    <link rel="stylesheet" href="./preview-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />  </head>
+<body>
+
+    <div id="left-panel">
+      <div class="table">
+        <div class="row">
+          <span>Client:</span>
+          <span><strong>{client}</strong></span>
+        </div>
+        <div class="row">
+          <span>Brand:</span>
+          <span><strong>{brand}</strong></span>
+        </div>
+        <div class="row">
+          <span>Campaign:</span>
+          <span><strong>{campaign}</strong></span>
+        </div>
+        <div class="row">
+          <span>Concept:</span>
+          <span><strong>{concept}</strong></span>
+        </div>
+      </div>
+
+      <div class="scrollable">
+        <h4>Sizes</h4>
+        <div class="sizes-section">
+
+          <div class="sizes-controls">
+            {checkboxes}
+          </div>
+        </div>
+
+        <h4>Settings</h4>
+        <div class="settings-section">
+          <input type="checkbox" id="adchoices-check"/>
+          <label for="adchoices-check">Show adChoices Logo</label>
+            <div class="adchoices-controls">
+
+              <h6>Horizontal alignment</h6>
+              <input type="radio" id="left" name="x-position" value="left">
+              <label for="option1">Left</label><br>
+              <input type="radio" id="right" name="x-position" value="right" checked>
+              <label for="option2">Right</label>
+
+              <h6>Vertical alignment</h6>
+              <input type="radio" id="top" name="y-position" value="top" checked>
+              <label for="option1">Top</label><br>
+              <input type="radio" id="bottom" name="y-position" value="bottom">
+              <label for="option2">Bottom</label>
+
+              <h6>Background</h6>
+              <label for="bgcolor">Pick a color:</label>
+              <input type="color" id="bgcolor" name="bgcolor" value="#ffffff">
+          </div>
+        </div>
+      </div>
+
+      <button class="download-btn">Download Options</button>
+
+
+    </div>
+
+    <div id="content" data-client="{client}" data-brand="{brand}" data-campaign="{campaign}" data-concept="{concept}">
+      {iframes}
+    </div>
+
+    <div class="modal close-trigger download">
+      <div class="modal-box">
+        <h4>Individual Links</h4>
+        <ul>
+          {downloadLinks}
+        </ul>
+        <h4>Consolidated Link</h4>
+        <button class="download-all">
+          <i class="fa-solid fa-download"></i>
+          Download Full Package
+        </button>
+
+        <button class="close-trigger">CLOSE</button>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js" integrity="sha512-BrvVYNhKh6yST24E5DY/LopLO5d+8KYmIXyrpBIJ2PK+CyyJw/cLSG/BfJomWLC1IblNrmiJWGlrGueKLd/Ekw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha512-XMVd28F1oH/O71fzwBnV7HucLxVwtxf26XV8P4wPk26EDxuGZ91N8bsOttmnomcCD3CS5ZMRL50H0GgOHvegtg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./preview-script.js"></script>
+</body>
+</html>

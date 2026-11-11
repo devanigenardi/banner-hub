@@ -1,0 +1,10 @@
+{
+  "master": "300x250",
+  "batchName": "assemble",
+  "client": "assemble",
+  "brand": "internal",
+  "campaign": "bannerforge-testing",
+  "concept": "default",
+  "stagingLink": "https://bannerforge.assemblestudio.com/permanent-links/assemble/internal/bannerforge-testing/default",
+  "serverPath": "/opt/bitnami/apache/htdocs/permanent-links/assemble/internal/bannerforge-testing/default"
+}

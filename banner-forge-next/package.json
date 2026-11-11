@@ -1,0 +1,40 @@
+{
+  "name": "banner-forge",
+  "version": "0.2.0-beta.1",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "bannerforge": "./cli.mjs"
+  },
+  "scripts": {
+    "forge": "node node-utilities/forge.mjs forge",
+    "optimize": "node node-utilities/forge.mjs optimize",
+    "package": "node --trace-warnings node-utilities/forge.mjs packaging",
+    "preview": "node node-utilities/forge.mjs preview",
+    "test": "node node-utilities/forge.mjs test",
+    "upload": "node --trace-warnings node-utilities/forge.mjs upload",
+    "compile": "ncc build node-utilities/forge.mjs -o dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "archiver": "^5.3.1",
+    "chalk": "^5.2.0",
+    "cheerio": "^1.0.0-rc.12",
+    "chokidar": "^5.0.0",
+    "cli-progress": "^3.12.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "gm": "^1.25.0",
+    "imagemagick": "^0.1.3",
+    "inquirer": "^9.2.7",
+    "nanoid": "^4.0.2",
+    "ncp": "^2.0.0",
+    "open": "^9.1.0",
+    "playwright": "^1.59.1",
+    "progress": "^2.0.3",
+    "sharp": "^0.32.6",
+    "ssh2-sftp-client": "^9.1.0",
+    "tinify": "^1.7.1"
+  }
+}

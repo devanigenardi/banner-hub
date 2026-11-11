@@ -22,4 +22,11 @@ Después de actualizar la carpeta, recarga la extensión con la flecha circular 
 2. Ejecuta `./build.sh`. Genera `dist/banner-hub-<version>.zip`.
 3. Sube ese zip en el panel de desarrollador de la Chrome Web Store.
 
-`banenrs-prueba/` contiene banners de prueba y no se incluye en el zip.
+## Plantilla forge-next
+
+El botón **Download forge-next** del encabezado descarga `downloads/banner-forge-next.zip`.
+Ese zip se genera con `./build.sh` a partir de la carpeta `banner-forge-next/`, así que
+después de cambiar la plantilla hay que volver a ejecutarlo.
+
+El `.env` real (credenciales de FTP y TinyPNG) nunca entra en el zip; se incluye un
+`.env.example` en blanco para copiar y completar.

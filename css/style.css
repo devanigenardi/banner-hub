@@ -280,3 +280,9 @@ input[type="submit"].button-primary:focus {
   color: #c0392b;
   font-weight: 600;
 }
+
+/* ---------- Header: template download ---------- */
+.hub-download {
+  margin: 0 0 0 auto;
+  white-space: nowrap;
+}
