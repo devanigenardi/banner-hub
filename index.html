@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/skeleton.min.css">
+    <title>Banner Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header class="hub-header">
+      <div class="hub-top">
+        <img src="images/image.webp" alt="Assemble digital production studio" />
+        <span class="hub-divider"></span>
+        <div>
+          <h1 class="hub-title">Banner Hub</h1>
+          <p class="hub-subtitle">Compare and time your banners</p>
+        </div>
+      </div>
+      <nav class="tabs">
+        <button type="button" class="tab active" data-tab="compare">Compare</button>
+        <button type="button" class="tab" data-tab="timer">Timer</button>
+        <button type="button" class="tab" data-tab="isi">ISI expander</button>
+      </nav>
+    </header>
+
+    <!-- ================= Compare ================= -->
+    <section id="tab-compare" class="panel">
+      <div class="card">
+        <form id="compare-form">
+          <label for="iframe1">Iframe 1</label>
+          <div class="url-row">
+            <input type="text" id="iframe1" value="">
+            <select id="size1" class="size-select" aria-label="Iframe 1 size"></select>
+          </div>
+          <label for="iframe2">Iframe 2</label>
+          <div class="url-row">
+            <input type="text" id="iframe2" value="">
+            <select id="size2" class="size-select" aria-label="Iframe 2 size"></select>
+          </div>
+          <label for="delay">Extra delay (seconds)</label>
+          <input type="number" id="delay" class="small-input" value="1" min="0" max="10" step="0.5">
+          <label class="check-row" for="show-clock">
+            <input type="checkbox" id="show-clock">
+            <span class="label-body">Show running clock</span>
+          </label>
+          <div class="actions">
+            <input class="button-primary" type="submit" value="Test / Refresh">
+            <button type="button" id="compare-stop" hidden>Stop clock</button>
+            <span id="status" class="status"></span>
+          </div>
+        </form>
+      </div>
+
+      <div id="compare-clock" class="clock open quiet">
+        <div class="clock-readout">
+          <span class="clock-time">0.0</span>
+          <span class="clock-target">s</span>
+          <span class="clock-flag">Time's up</span>
+        </div>
+        <div class="clock-bar"><div class="clock-bar-fill"></div></div>
+      </div>
+
+      <div class="banners">
+        <div id="iframe-container-1" class="banner-slot"></div>
+        <div id="iframe-container-2" class="banner-slot"></div>
+      </div>
+    </section>
+
+    <!-- ================= Timer ================= -->
+    <section id="tab-timer" class="panel" hidden>
+      <div class="card">
+        <form id="timer-form">
+          <label for="timer-url">Banner URL</label>
+          <div class="url-row">
+            <input type="text" id="timer-url" value="">
+            <select id="timer-size" class="size-select" aria-label="Banner size"></select>
+          </div>
+          <label for="timer-duration">Duration (seconds)</label>
+          <input type="number" id="timer-duration" class="small-input" value="15" min="1" max="600" step="1">
+          <label for="timer-delay">Load delay (seconds)</label>
+          <input type="number" id="timer-delay" class="small-input" value="1" min="0" max="10" step="0.5">
+          <div class="actions">
+            <input class="button-primary" type="submit" value="Start timer">
+            <button type="button" id="timer-stop">Stop</button>
+            <span id="timer-status" class="status"></span>
+          </div>
+        </form>
+      </div>
+
+      <div id="timer-clock" class="clock">
+        <div class="clock-readout">
+          <span class="clock-time">0.0</span>
+          <span class="clock-target">/ 15 s</span>
+          <span class="clock-flag">Time's up</span>
+        </div>
+        <div class="clock-bar"><div class="clock-bar-fill"></div></div>
+        <div class="clock-actions">
+          <button type="button" class="mark-btn" disabled>Mark time</button>
+          <button type="button" class="clear-btn">Clear marks</button>
+          <span class="clock-hint">Tip: press Space to mark a time while the clock runs.</span>
+        </div>
+        <ol class="laps"></ol>
+      </div>
+
+      <div class="banners">
+        <div id="timer-container" class="banner-slot"></div>
+      </div>
+    </section>
+
+    <!-- ================= ISI expander ================= -->
+    <section id="tab-isi" class="panel" hidden>
+      <div class="card">
+        <form id="isi-form">
+          <label for="isi-url">Banner URL</label>
+          <div class="url-row">
+            <input type="text" id="isi-url" value="">
+            <select id="isi-size" class="size-select" aria-label="Banner size"></select>
+          </div>
+          <label for="isi-zoom">Zoom</label>
+          <select id="isi-zoom" class="small-input">
+            <option value="1">100%</option>
+            <option value="1.5">150%</option>
+            <option value="2" selected>200%</option>
+            <option value="2.5">250%</option>
+            <option value="3">300%</option>
+          </select>
+          <label for="isi-selector">ISI selector (optional)</label>
+          <input type="text" id="isi-selector" class="u-full-width" value="" placeholder="Auto-detect: .isi-container, #isi, .isi …">
+          <div class="actions">
+            <input class="button-primary" type="submit" value="Load banner">
+            <button type="button" id="isi-toggle">Expand ISI</button>
+            <span id="isi-status" class="status"></span>
+          </div>
+        </form>
+      </div>
+
+      <div class="banners">
+        <div id="isi-container" class="banner-slot"></div>
+      </div>
+    </section>
+
+    <script src="js/main.js"></script>
+
+</body>
+</html>

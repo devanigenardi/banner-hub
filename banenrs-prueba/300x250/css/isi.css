@@ -1,0 +1,346 @@
+@charset "UTF-8";
+
+/*
+
+  ___ ___ ___                        
+ |_ _/ __|_ _|                       
+  | |\__ \| |                        
+ |___|___/___|  _      _    _        
+ \ \ / /_ _ _ _(_)__ _| |__| |___ ___
+  \ V / _` | '_| / _` | '_ \ / -_|_-<
+   \_/\__,_|_| |_\__,_|_.__/_\___/__/
+                                     
+
+*/
+:root {
+ /* ==================
+    💊 GLOBAL SETTINGS 
+    ================== */
+    --isi-width:            300px;
+    --isi-height:           250px;
+    --isi-background-color: #fff;
+    --isi-z-index:          3000;
+
+ /* ==================
+    🗣️ HEADER 
+    ================== */
+   --isi-header-height: 20px;
+
+ /* ==================
+    🪟 VIEWPORT
+    ================== */
+    --isi-viewport-collapsed-size:  60px; /* height */
+    --isi-viewport-width:           300px;
+    --isi-viewport-padding:         10px 28px 0 15px;
+
+ /* ==================
+    📝 TEXT
+    ================== */ 
+
+   --isi-primary-color:     #000;
+   --isi-secondary-color:   #2754a4;
+   --isi-headline:          700 12px/14px Helvetica, Arial, sans;
+   --isi-text:              9px/11px 'Montserrat', sans-serif;
+   --isi-small-text:        8px/10px Arial, sans-serif;
+
+ /* ==================
+    🍫 SCROLLBAR
+    ================== */
+   --isi-scrollbar-handle-color:              #76cccf;
+   --isi-scrollbar-track-color:               #bae3e3;
+   --isi-scrollbar-width:                       5px;
+   --isi-scrollbar-height:                      20px;
+   --isi-scrollbar-handle-border-radius:        3px;
+   --isi-scrollbar-track-border-radius:         3px;
+   --isi-scrollbar-right:                       5px;
+   --isi-scrollbar-top:                         5px;
+   --isi-scrollbar-bottom:                      5px;
+
+ /* ==================
+    🦶 FOOTER
+    ================== */
+   --isi-footer-height: 25px;
+
+}
+/*
+
+  ___ _        _ _           
+ / __| |_ _  _| (_)_ _  __ _ 
+ \__ \  _| || | | | ' \/ _` |
+ |___/\__|\_, |_|_|_||_\__, |
+          |__/         |___/ 
+
+*/
+/* ===🗣️ HEADER STYLES=== */
+/* .isi-container .isi-header {} */
+.isi-container .isi-header {
+    display: block;
+	width: 100%;
+	padding-left: 14px;
+	padding-top: 3px;
+    background-color: var(--isi-background-color);
+}
+.isi-container .isi-header h1 {
+    font: var(--isi-headline);
+	color: var(--isi-secondary-color);
+}
+
+/* ===💊 ISI STYLES=== */
+/* .isi-copy {} */
+.isi-copy .uppercase {
+    text-transform: uppercase;
+}
+.isi-copy .lowercase {
+    text-transform: lowercase;
+}
+.isi-copy .text-center {
+    text-align: center;
+}
+.isi-copy .text-left {
+    text-align: left;
+}
+.isi-copy .text-right {
+    text-align: right;
+}
+.isi-copy .underline {
+    text-decoration: underline;
+}
+.isi-copy .bold {
+    font-weight: 700;
+}
+.isi-copy .no-spacing {
+    margin: 0;
+}
+.isi-copy .color-primary {
+    color: var(--isi-secondary-color);
+}
+.isi-copy .color-secondary {
+    color: var(--isi-secondary-color);
+}
+.isi-copy .extra-spacing {
+    margin-bottom: 5px;
+}
+.isi-copy sup {
+    font-size: 6px;
+    vertical-align: baseline;
+    position: relative;
+    top: -0.65em;
+}
+.isi-copy sub {
+    top: 0.65em;
+}
+.isi-copy a {
+    cursor: pointer;
+}
+.isi-copy .pointer {
+    cursor: pointer;
+}
+.isi-copy .underline {
+    text-decoration: underline;
+}
+.isi-copy .quote {
+    padding-left: 15px;
+}
+.isi-copy .small-text {
+    font: var(--isi-small-text);
+}
+.isi-copy .no-spacing {
+    margin: 0;
+}
+.isi-copy .itallic {
+    font-style: italic;
+}
+.isi-copy sup {
+    font-size: 6.6px;
+    vertical-align: baseline;
+    position: relative;
+    top: -0.65em;
+}
+.isi-copy sub {
+    top: 0.65em;
+}
+.isi-copy p {
+    letter-spacing: normal;
+    font: var(--isi-text);
+    color: var(--isi-primary-color);
+}
+.isi-copy h1 {
+    font: var(--isi-headline);
+    margin-top: 4px;
+    margin-bottom: 6px;
+}
+.isi-copy h1:first-child {
+    margin-top:0px;
+	margin-bottom:1px;
+}
+.isi-copy h2 {
+    margin-bottom: 6px;
+}
+.isi-copy h1,
+.isi-copy h2,
+.isi-copy h3 {
+    font: var(--isi-headline);
+    color: var(--isi-secondary-color);
+}
+.isi-copy p {
+    margin-top: 6px;
+	margin-bottom: 0;
+	font-weight: 300;
+}
+.isi-copy p a {
+    color: var(--isi-primary-color);
+    text-decoration: underline;
+}
+.isi-copy p a:first-child {
+    margin-top: 0;
+}
+.isi-copy p a.underline {
+    line-height: 8px;
+}
+.isi-copy strong {
+    font-weight: 700;
+}
+.isi-copy a {
+    cursor: pointer;
+}
+
+/* LIST STYLES
+   ----------------------------- */
+.isi-copy li {
+    font: var(--isi-text);
+}
+.isi-copy ol {
+    list-style-position: outside;
+    list-style: decimal;
+    margin: -10px 0 12px 0; /*top right bottom left*/
+    padding-left: 12px;
+}
+.isi-copy ol li {
+    position: relative;
+}
+.isi-copy ul {
+    list-style: none;
+    margin: 0 4px 0;
+    padding-left: 12px;
+}
+.isi-copy ul li {
+    position: relative;
+    margin-bottom: 10px;
+}
+.isi-copy ul li:first-child{
+    margin-top: 0;
+}
+.isi-copy ul li::before{
+    content: "•";
+    position: absolute;
+    left: -12px;
+    top: 0;
+    color: var(--isi-secondary-color); 
+    font-size: 12px;
+}
+.isi-copy ul li ul {
+    padding-left: 10px;
+}
+.isi-copy ul li ul li {
+    margin-top: 0;
+}
+.isi-copy ul li ul li::before {
+    content: "—";
+    color: #bc9c4e;
+    font-size: 12px;
+    left: -10px;
+    top: 0;
+}
+
+/* ===🦶 FOOTER STYLES=== */
+/* .isi-container .isi-footer {} */
+.isi-container .isi-footer {
+    display: block;
+    position: relative;
+    width: 100%;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	background-size: 300px 25px;
+	background-image: url('../images/isi-footer.png');
+}
+.isi-container .isi-footer #pi,
+.isi-container .isi-footer #patient-info {
+    /*border:1px solid lime;*/
+    height: 100%;
+    width: 175px;
+    position: absolute;
+} 
+.isi-container .isi-footer #pi {
+    top: 0;
+    left: 0;
+}
+.isi-container .isi-footer #patient-info {
+    top: 0;
+    left: 175px;
+}
+
+/*
+ \   /  \   /  \   /  ================================ \   /  \   /  \   /  
+--///----///----///---| DO NOT MODIFY CSS BELOW THIS |--///----///----///--- 
+ /   \  /   \  /   \  ================================ /   \  /   \  /   \  
+*/
+/* --- GLOBAL HACKS --- */
+.isi-container {
+    width:  var(--isi-width);
+    height: var(--isi-viewport-collapsed-size);
+    right: 0; bottom: 0; position: absolute; display: block;
+}
+.isi-container .isi-content { position: relative;
+    background-color: var(--isi-background-color);
+    position: absolute;
+}
+.isi-container .isi-copy-wrapper{ overflow: hidden;   
+}
+.isi-container .isi-copy{ 
+    padding: var(--isi-viewport-padding);
+}
+.isi-container .isi-content,
+.isi-container .isi-copy-wrapper,
+.isi-container .isi-copy { width: 100%; height: 100%;
+}
+.isi-container .isi-header,
+.isi-container .isi-footer { position: absolute;
+    z-index: 1;
+}
+/* --- HEADER HACKS --- */
+.isi-container .isi-header {
+    height: var(--isi-header-height);
+}
+/* --- VIEWPORT HACKS --- */
+*[class*="clickTag"] {
+    cursor: pointer;
+}
+/* --- SCROLLBAR HACKS --- */
+.isi-container .isi-copy-wrapper .isi-copy .os-scrollbar-corner {
+    display: none; /* we need the resizing ability but not the button */
+}
+.isi-container .isi-copy-wrapper .isi-copy .os-scrollbar-vertical {
+    padding: 0px; position: absolute; border-left: 0 solid transparent; z-index: 11;
+    width:              var(--isi-scrollbar-width);
+    right:              var(--isi-scrollbar-right); 
+    top:                var(--isi-scrollbar-top); 
+    bottom:             var(--isi-scrollbar-bottom); 
+    background-color:   var(--isi-scrollbar-track-color); 
+    border-radius:      var(--isi-scrollbar-track-border-radius); 
+}
+.isi-container .os-scrollbar-handle {
+    width:              var(--isi-scrollbar-width);
+    min-height:         var(--isi-scrollbar-height);
+    max-height:         var(--isi-scrollbar-height);
+    background-color:   var(--isi-scrollbar-handle-color);
+    border-radius:      var(--isi-scrollbar-handle-border-radius);
+    cursor: pointer;
+}
+/* --- FOOTER HACKS --- */
+/* height was added to fix an issue in Safari where z-index does stop working momentarily while animating in */
+
+.isi-container .isi-footer {
+    height: var(--isi-footer-height);
+    bottom: 0px;
+}

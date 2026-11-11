@@ -1,0 +1,282 @@
+body {
+  margin: 0;
+  background: #f5f7fb;
+}
+
+/* ---------- Header ---------- */
+.hub-header {
+  background: #fff;
+  color: #1E3A66;
+  padding: 0 24px;
+  border-top: 4px solid #2A55A2;
+  border-bottom: 1px solid #dfe4ee;
+  box-shadow: 0 2px 10px rgba(20, 40, 80, 0.06);
+}
+.hub-top {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 0 14px;
+}
+.hub-top img {
+  height: 44px;
+  width: auto;
+}
+.hub-divider {
+  width: 1px;
+  height: 40px;
+  background: #dfe4ee;
+}
+.hub-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+  color: #1E3A66;
+}
+.hub-subtitle {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: #777;
+}
+.tabs {
+  display: flex;
+  gap: 4px;
+}
+.tabs .tab {
+  height: auto;
+  margin: 0;
+  padding: 10px 22px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: #777;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+  text-transform: none;
+}
+.tabs .tab:hover,
+.tabs .tab:focus {
+  color: #1E3A66;
+  border-bottom-color: #dfe4ee;
+}
+.tabs .tab.active,
+.tabs .tab.active:hover,
+.tabs .tab.active:focus {
+  color: #2A55A2;
+  border-bottom-color: #2A55A2;
+}
+
+/* ---------- Panels ---------- */
+.panel {
+  padding: 24px;
+}
+.panel[hidden] {
+  display: none;
+}
+.card {
+  background: #fff;
+  border: 1px solid #dfe4ee;
+  border-radius: 8px;
+  padding: 20px 20px 16px;
+  max-width: 760px;
+  margin-bottom: 24px;
+}
+.card form {
+  margin: 0;
+}
+.url-row {
+  display: flex;
+  gap: 10px;
+}
+.url-row input {
+  flex: 1;
+  min-width: 0;
+}
+.small-input {
+  width: 140px;
+}
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.actions .button,
+.actions button,
+.actions input[type="submit"] {
+  margin-bottom: 0;
+}
+.button.button-primary,
+button.button-primary,
+input[type="submit"].button-primary {
+  background-color: #2A55A2;
+  border-color: #2A55A2;
+}
+.button.button-primary:hover,
+button.button-primary:hover,
+input[type="submit"].button-primary:hover,
+.button.button-primary:focus,
+button.button-primary:focus,
+input[type="submit"].button-primary:focus {
+  background-color: #223C61;
+  border-color: #223C61;
+}
+.status {
+  color: #777;
+  font-size: 13px;
+}
+
+/* ---------- Banners ---------- */
+.banners {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 20px;
+}
+.banner-slot {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.banner-slot iframe {
+  background: #fff;
+}
+.size-label {
+  font-size: 12px;
+  color: #777;
+  margin-bottom: 4px;
+}
+
+/* ---------- Timer ---------- */
+.clock {
+  max-width: 760px;
+  margin-bottom: 24px;
+}
+.clock-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  color: #223C61;
+}
+.clock-time {
+  font-size: 64px;
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.clock-target {
+  font-size: 20px;
+  color: #777;
+  font-variant-numeric: tabular-nums;
+}
+.clock-flag {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #c0392b;
+  visibility: hidden;
+}
+.clock-bar {
+  height: 6px;
+  margin-top: 12px;
+  background: #dfe4ee;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.clock-bar-fill {
+  height: 100%;
+  width: 0;
+  background: #2A55A2;
+}
+.clock.done .clock-readout { color: #c0392b; }
+.clock.done .clock-flag { visibility: visible; }
+.clock.done .clock-bar-fill { background: #c0392b; }
+.banner-slot.done iframe {
+  outline: 3px solid #c0392b;
+  outline-offset: -3px;
+}
+
+/* ---------- Clock without a target duration (Compare) ---------- */
+.clock.open .clock-bar {
+  display: none;
+}
+
+/* ---------- Time marks ---------- */
+.clock-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+.clock-actions button {
+  margin-bottom: 0;
+}
+.clock-hint {
+  font-size: 12px;
+  color: #777;
+}
+.laps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.laps li {
+  margin: 0;
+  padding: 4px 10px;
+  background: #fff;
+  border: 1px solid #dfe4ee;
+  border-radius: 14px;
+  font-size: 13px;
+  color: #1E3A66;
+  font-variant-numeric: tabular-nums;
+}
+.laps .lap-n {
+  color: #777;
+  margin-right: 6px;
+}
+.laps .lap-delta {
+  color: #777;
+  margin-left: 6px;
+  font-size: 12px;
+}
+
+/* ---------- Compare: clock hidden unless "Show running clock" is checked ---------- */
+.clock.quiet .clock-readout {
+  display: none;
+}
+.clock.quiet .clock-actions {
+  margin-top: 0;
+}
+.check-row {
+  margin-bottom: 15px;
+}
+#compare-stop[hidden] {
+  display: none;
+}
+
+/* ---------- ISI expander ---------- */
+.isi-box {
+  overflow: hidden;
+}
+.isi-box iframe {
+  transform-origin: 0 0;
+}
+.isi-stage.expanded .isi-box {
+  border: 1px solid #dfe4ee;
+  background: #fff;
+}
+
+.status.error {
+  flex-basis: 100%;
+  color: #c0392b;
+  font-weight: 600;
+}

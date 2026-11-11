@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="ad.size" content="width=300,height=250">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.3/css/OverlayScrollbars.min.css">
+
+    <script>
+      /* 
+        CLICKTAGS
+        Add/Remove as many clicktag variables as required
+        URL destinations should never be hardcoded directly into anchor/button elements.
+        Instead they need to exist here, so ad servers can track exits and also change them.
+        Add the data-exit parameter on each tag that requires to fire a clickTag, 
+        and provide the name of the variable containing the URL that needs to be called.
+        EG: <div class="exit-trigger" data-exit="clickTag1"></div>
+      */
+      var clickTag1 = 'https://www.assemblestudio.com/';
+    </script>
+
+    <script src="https://s0.2mdn.net/ads/studio/cached_libs/gsap_3.11.1_min.js"></script>
+    <script src="https://s0.2mdn.net/ads/studio/cached_libs/scrolltoplugin_3.11.1_min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.3/js/OverlayScrollbars.min.js"></script>
+    <script src="js/banner-scripts.js"></script>
+  </head>
+
+  <body>
+    <div id="banner-wrapper">
+      
+      <div id="stage" style="visibility: hidden;">
+        <div id="bg"></div>
+        <div id="f1-txt-1"></div>
+        <div id="f1-txt-2"></div>
+        <div id="f2-txt-1"></div>
+        <div id="f3-txt-1"></div>
+        <div id="f3-logo"></div>
+        <div id="f4-txt-1"></div>
+        <div id="f4-full-logo"></div>
+        <div id="cta"></div>
+        <div class="exit-trigger" data-exit="clickTag1"></div>
+
+        <!-- ISI AREA -->
+        <div class="isi isi-container">
+          <div class="isi-content">
+            <div class="isi-copy-wrapper">
+              <div class="isi-copy">
+                <div class="isi-copy-inner-wrapper">
+                  <!-- ISI content starts here -->
+                  <h1>Where Innovation Meets Excellence</h1>
+
+                  <h2>Who We Are</h2>
+                  <p>Assemble Studio is more than just a digital agency; we are visionaries, architects, and strategists committed to pushing the boundaries of digital experiences. Located in the dynamic epicenter of the tech world, our multi-disciplinary team specializes in web development, design, and digital production. We are enthusiastic about leveraging cutting-edge technologies to deliver remarkable outcomes tailored for each client.</p>
+                
+                  <p>Our expertise extends across various industries, offering unparalleled services in pharma, retail, technology, and beyond. From startup businesses to Fortune 500 companies, we&rsquo;ve become the trusted digital partner for countless organizations.</p>
+                
+                  <h2>Our Philosophy</h2>
+                  <p>At the heart of our philosophy is an unwavering commitment to quality. Every project we undertake is seen as an opportunity to set a new standard in digital excellence. Our team members are dedicated professionals who strive to exceed expectations, deliver on time, and bring visions to life.</p>
+                
+                  <h2>Our Services</h2>
+                  
+                  <h3>Web Development</h3>
+                  <p>Web development is not just our job, it&rsquo;s our passion. We create rock-solid web applications that employ modern frameworks like React and Vue. This ensures an unparalleled focus on performance, scalability, and reliability. In a world where milliseconds matter, our web applications give your business the edge it needs to stand out from the crowd.</p>
+                
+                  <p>Key Features:</p>
+                  <ul>
+                    <li>Responsive Design</li>
+                    <li>High Performance</li>
+                    <li>Security-Focused</li>
+                    <li>Scalable Solutions</li>
+                  </ul>
+                
+                  <h3>Design</h3>
+                  <p>Design is the soul of every project. Our designers follow a blend of art and science to create user interfaces that are not only visually captivating but also functional and intuitive. By employing the latest design philosophies and technologies, we make sure your users get a seamless digital experience.</p>
+                
+                  <p>Our design services include:</p>
+                  <ul>
+                    <li>UI/UX Design</li>
+                    <li>Branding</li>
+                    <li>Graphic Design</li>
+                    <li>Interaction Design</li>
+                  </ul>
+                
+                  <h3>Digital Production</h3>
+                  <p>In the realm of digital production, our portfolio speaks for itself. We provide a wide array of services from animated banner ads to rich media and HTML email campaigns. Our digital production experts employ advanced animation techniques to create fluid, eye-catching visuals that not only attract but also engage and convert.</p>
+                
+                  <p>Types of digital production services:</p>
+                  <ul>
+                    <li>Animated Banner Ads</li>
+                    <li>Rich Media</li>
+                    <li>HTML Email Campaigns</li>
+                    <li>Veeva CLM Presentations</li>
+                  </ul>
+                
+                  <h2>Quality Assurance</h2>
+                  <p>We don&rsquo;t compromise on quality, ever. Each project is rigorously vetted through a robust QA process to ensure excellence. This isn't just about bug tracking; it's about guaranteeing that every pixel is perfectly placed, every animation is fluid, and every line of code is optimized for performance and readability.</p>
+                
+                  <p>Our QA methodologies include:</p>
+                  <ul>
+                    <li>Automated Testing</li>
+                    <li>Manual Code Reviews</li>
+                    <li>UI/UX Evaluation</li>
+                    <li>Performance Analysis</li>
+                  </ul>
+                
+                  <h2>Why Choose Us</h2>
+                  <p>Choosing a digital agency is a significant decision, and it's crucial to pick a partner that aligns with your vision. Assemble Studio is committed to not just meeting but exceeding your expectations. Our track record of satisfied clients and successful projects speaks to our capabilities and dedication.</p>
+                
+                  <h2>Contact Us</h2>
+                  <p>We are always excited to take on new projects and challenges. If you're looking for a digital partner that shares your attention to detail and commitment to excellence, we would love to hear from you. Contact us today to embark on a journey toward digital transformation.</p>
+                  <!-- ISI content must stop here -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+
+      </div>
+
+      <div id="preloader">
+        <svg width="38" height="38" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#808080"><g fill="none" fill-rule="evenodd"><g transform="translate(1 1)" stroke-width="2"><circle stroke-opacity=".5" cx="18" cy="18" r="18"/><path d="M36 18c0-9.94-8.06-18-18-18"><animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/></path></g></g></svg>
+      </div>
+
+    </div>
+  </body>
+</html>

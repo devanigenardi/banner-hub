@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "Banner Hub",
+  "version": "1.2.0",
+  "description": "Compare, time and review the ISI of HTML5 banners, local or hosted.",
+  "action": {
+    "default_title": "Open Banner Hub",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "host_permissions": [
+    "<all_urls>",
+    "file:///*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "js/isi-content.js"
+      ],
+      "all_frames": true,
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "scripting",
+    "webNavigation"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
