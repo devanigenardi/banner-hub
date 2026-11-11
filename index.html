@@ -24,6 +24,7 @@
         <button type="button" class="tab active" data-tab="compare">Compare</button>
         <button type="button" class="tab" data-tab="timer">Timer</button>
         <button type="button" class="tab" data-tab="isi">ISI expander</button>
+        <button type="button" class="tab" data-tab="timeline">Timeline</button>
       </nav>
     </header>
 
@@ -140,6 +141,45 @@
 
       <div class="banners">
         <div id="isi-container" class="banner-slot"></div>
+      </div>
+    </section>
+
+    <!-- ================= Timeline (GSAP scrubber) ================= -->
+    <section id="tab-timeline" class="panel" hidden>
+      <div class="card">
+        <form id="scrub-form">
+          <label for="scrub-url">Banner URL</label>
+          <div class="url-row">
+            <input type="text" id="scrub-url" value="">
+            <select id="scrub-size" class="size-select" aria-label="Banner size"></select>
+          </div>
+          <div class="actions">
+            <input class="button-primary" type="submit" value="Load banner">
+            <span id="scrub-status" class="status"></span>
+          </div>
+        </form>
+      </div>
+
+      <div id="scrub-bar" class="scrub-bar disabled">
+        <div class="scrub-row">
+          <button type="button" id="scrub-play" class="button-primary" disabled>Pause</button>
+          <button type="button" id="scrub-restart" disabled>Restart</button>
+          <span class="scrub-readout"><span id="scrub-time">0.00</span> / <span id="scrub-total">0.00</span> s</span>
+          <label class="scrub-speed" for="scrub-speed">Speed
+            <select id="scrub-speed" disabled>
+              <option value="0.25">0.25x</option>
+              <option value="0.5">0.5x</option>
+              <option value="1" selected>1x</option>
+              <option value="2">2x</option>
+            </select>
+          </label>
+        </div>
+        <input type="range" id="scrub-range" min="0" max="1" step="0.01" value="0" disabled aria-label="Animation time">
+        <div class="clock-hint">Drag the bar to move through the animation. Space plays and pauses. Works with banners animated with GSAP 3.</div>
+      </div>
+
+      <div class="banners">
+        <div id="scrub-container" class="banner-slot"></div>
       </div>
     </section>
 

@@ -206,19 +206,22 @@ tabs.forEach(function (tab) {
 });
 
 // Space marks a time on the visible tab's clock, unless you are typing in a field.
+// On the Timeline tab it plays and pauses the animation instead.
 function isSpaceShortcut(e) {
-  if (!clocks[activeTab]) return false;
+  if (!clocks[activeTab] && activeTab !== "timeline") return false;
   if (e.code !== "Space" && e.key !== " ") return false;
   var el = e.target;
   var tag = el.tagName;
   if (tag === "SELECT" || tag === "TEXTAREA") return false;
-  if (tag === "INPUT" && el.type !== "submit" && el.type !== "button") return false;
+  if (tag === "INPUT" && el.type !== "submit" && el.type !== "button" && el.type !== "range") return false;
   return true;
 }
 document.addEventListener("keydown", function (e) {
   if (!isSpaceShortcut(e)) return;
   e.preventDefault();
-  if (!e.repeat) clocks[activeTab].mark();
+  if (e.repeat) return;
+  if (activeTab === "timeline") scrubToggle();
+  else clocks[activeTab].mark();
 });
 // Stops Space from also "clicking" whichever button has focus.
 document.addEventListener("keyup", function (e) {
@@ -318,7 +321,7 @@ var isExtension = typeof chrome !== "undefined" && !!chrome.runtime && !!chrome.
 // Must match "version" in manifest.json. Chrome reads this file fresh from disk on
 // every page load but keeps the old manifest until the extension is reloaded, so a
 // mismatch means "reload the extension".
-var EXPECTED_VERSION = "1.2.0";
+var EXPECTED_VERSION = "1.3.0";
 
 var isiStatus = document.getElementById("isi-status");
 var isiToggle = document.getElementById("isi-toggle");
@@ -413,22 +416,26 @@ function isiInject() {
   }
 }
 
-// Explains why the banner did not answer, as precisely as Chrome lets us know.
-function isiExplainSilence() {
-  isiStopWaiting();
-  var detail = isiView.injectError ? " (Chrome said: " + isiView.injectError + ")" : "";
+// Explains why a banner did not answer, as precisely as Chrome lets us know.
+function explainSilence(url, injectError, say) {
+  var detail = injectError ? " (Chrome said: " + injectError + ")" : "";
   var generic = "The banner did not answer" + detail + ". In chrome://extensions check that Banner Hub > " +
     "Details > Site access is \"On all sites\", reload the extension and retry.";
-  var isLocal = /^file:/i.test(isiView.job.url);
+  var isLocal = /^file:/i.test(url);
   if (!isLocal || !chrome.extension || !chrome.extension.isAllowedFileSchemeAccess) {
-    isiSay(generic, true);
+    say(generic, true);
     return;
   }
   chrome.extension.isAllowedFileSchemeAccess(function (allowed) {
-    isiSay(allowed ? generic
+    say(allowed ? generic
       : "Local banners need permission: in chrome://extensions open Banner Hub > Details and turn on " +
         "\"Allow access to file URLs\", then retry.", true);
   });
+}
+
+function isiExplainSilence() {
+  isiStopWaiting();
+  explainSilence(isiView.job.url, isiView.injectError, isiSay);
 }
 
 function isiRequest() {
@@ -536,3 +543,192 @@ isiZoom.addEventListener("change", isiLayout);
 window.addEventListener("resize", isiLayout);
 
 if (!isExtension) isiSay(ISI_NEEDS_EXTENSION, true);
+
+/* ---------- Timeline (GSAP scrubber) ---------- */
+
+// js/scrub-page.js runs inside the banner, next to its GSAP, and moves every
+// animation into one timeline. This page only sends it commands (play, pause,
+// seek…) and draws the state it reports back.
+var scrub = {
+  job: null,
+  found: false,
+  answered: false,   // the script inside the banner replied at least once
+  dragging: false,
+  paused: false,
+  ended: false,
+  duration: 0,
+  hello: null,
+  timer: null,
+  injectError: "",
+  tabId: null
+};
+
+var scrubStatus = document.getElementById("scrub-status");
+var scrubBar = document.getElementById("scrub-bar");
+var scrubPlay = document.getElementById("scrub-play");
+var scrubRestart = document.getElementById("scrub-restart");
+var scrubRange = document.getElementById("scrub-range");
+var scrubSpeed = document.getElementById("scrub-speed");
+var scrubTime = document.getElementById("scrub-time");
+var scrubTotal = document.getElementById("scrub-total");
+
+var SCRUB_NEEDS_EXTENSION = "The timeline only works when Banner Hub is opened from the Chrome extension icon " +
+  "(not by double-clicking index.html). Install it in chrome://extensions > Load unpacked.";
+
+function scrubSay(text, isError) {
+  scrubStatus.textContent = text;
+  scrubStatus.classList.toggle("error", !!isError);
+}
+
+function scrubEnable(on) {
+  scrubBar.classList.toggle("disabled", !on);
+  [scrubPlay, scrubRestart, scrubRange, scrubSpeed].forEach(function (el) { el.disabled = !on; });
+}
+
+function scrubStopWaiting() {
+  clearInterval(scrub.hello);
+  clearTimeout(scrub.timer);
+}
+
+function scrubSend(cmd, extra) {
+  if (!scrub.job) return;
+  var message = extra || {};
+  message.bannerHub = "scrub";
+  message.cmd = cmd;
+  scrub.job.frame.contentWindow.postMessage(message, "*");
+}
+
+// Puts the script inside the banner frames, in the page's own JavaScript world
+// (the only place where the banner's GSAP is visible). It does nothing there
+// until it gets a message, and only the Timeline banner gets one.
+function scrubInject(frameIds) {
+  if (scrub.tabId === null) return;
+  function run(ids) {
+    if (!ids.length) return;
+    chrome.scripting.executeScript(
+      { target: { tabId: scrub.tabId, frameIds: ids }, files: ["js/scrub-page.js"], world: "MAIN", injectImmediately: true },
+      function () {
+        if (chrome.runtime.lastError) scrub.injectError = chrome.runtime.lastError.message || "";
+      }
+    );
+  }
+  try {
+    if (frameIds) { run(frameIds); return; }
+    chrome.webNavigation.getAllFrames({ tabId: scrub.tabId }, function (frames) {
+      run((frames || []).filter(function (f) { return f.frameId !== 0 && f.parentFrameId === 0; })
+        .map(function (f) { return f.frameId; }));
+    });
+  } catch (err) {
+    scrub.injectError = String(err && err.message || err);
+  }
+}
+
+if (isExtension) {
+  chrome.tabs.getCurrent(function (tab) {
+    if (!tab) return;
+    scrub.tabId = tab.id;
+    // Inject as soon as the banner starts loading, so no animation is missed.
+    chrome.webNavigation.onCommitted.addListener(function (details) {
+      if (details.tabId !== scrub.tabId || details.frameId === 0 || details.parentFrameId !== 0) return;
+      if (scrub.job && !scrub.found) scrubInject([details.frameId]);
+    });
+  });
+}
+
+function scrubLoad() {
+  scrubStopWaiting();
+  scrub.found = false;
+  scrub.answered = false;
+  scrub.dragging = false;
+  scrub.duration = 0;
+  scrub.injectError = "";
+  scrubEnable(false);
+  scrubDraw({ time: 0, duration: 0, paused: false, ended: false });
+
+  var job = buildSlot(
+    document.getElementById("scrub-container"),
+    document.getElementById("scrub-url").value,
+    document.getElementById("scrub-size").value,
+    "frame_scrub"
+  );
+  scrub.job = job;
+  if (!job) { scrubSay("Enter a banner URL first.", true); return; }
+  job.container.style.visibility = "visible";
+  if (!isExtension) { job.frame.src = job.url; scrubSay(SCRUB_NEEDS_EXTENSION, true); return; }
+
+  scrubSay("Loading banner…");
+  job.frame.onload = function () { scrubInject(); };
+  job.frame.src = job.url;
+
+  // Keep knocking until the script inside the banner answers.
+  scrub.hello = setInterval(function () {
+    scrubInject();
+    scrubSend("hello");
+  }, 150);
+  scrub.timer = setTimeout(function () {
+    if (scrub.answered) return;
+    scrubStopWaiting();
+    explainSilence(job.url, scrub.injectError, scrubSay);
+  }, 8000);
+}
+
+function scrubDraw(state) {
+  scrub.paused = !!state.paused;
+  scrub.ended = !!state.ended;
+  if (state.duration !== scrub.duration) {
+    scrub.duration = state.duration;
+    scrubRange.max = state.duration > 0 ? state.duration.toFixed(2) : "1";
+    scrubTotal.textContent = state.duration.toFixed(2);
+  }
+  if (!scrub.dragging) scrubRange.value = state.time;
+  scrubTime.textContent = state.time.toFixed(2);
+  scrubPlay.textContent = state.paused ? "Play" : (state.ended ? "Replay" : "Pause");
+}
+
+function scrubToggle() {
+  if (!scrub.found) return;
+  scrubSend(scrub.paused || scrub.ended ? "play" : "pause");
+}
+
+document.getElementById("scrub-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+  scrubLoad();
+});
+scrubPlay.addEventListener("click", scrubToggle);
+scrubRestart.addEventListener("click", function () { scrubSend("restart"); });
+scrubSpeed.addEventListener("change", function () { scrubSend("speed", { speed: parseFloat(scrubSpeed.value) }); });
+scrubRange.addEventListener("input", function () {
+  scrub.dragging = true;
+  scrubTime.textContent = (+scrubRange.value).toFixed(2);
+  scrubSend("seek", { time: +scrubRange.value });
+});
+scrubRange.addEventListener("change", function () { scrub.dragging = false; });
+
+window.addEventListener("message", function (e) {
+  var data = e.data;
+  if (!scrub.job || e.source !== scrub.job.frame.contentWindow || !data || data.bannerHub !== "scrub-state") return;
+
+  scrub.answered = true;
+  scrubStopWaiting();
+
+  if (!data.found) {
+    if (data.waiting) { scrubSay("Looking for the banner's animation…"); return; }
+    scrub.found = false;
+    scrubEnable(false);
+    scrubSay(data.legacy
+      ? "This banner uses GSAP 2 (TweenMax). The timeline only works with GSAP 3."
+      : "No GSAP 3 animation found in this banner. The timeline only works with banners animated with GSAP 3.", true);
+    return;
+  }
+
+  if (!scrub.found) {
+    scrub.found = true;
+    scrubEnable(true);
+    // A reloaded banner starts at normal speed; send it the speed that is selected.
+    if (scrubSpeed.value !== "1") scrubSend("speed", { speed: parseFloat(scrubSpeed.value) });
+  }
+  scrubSay(data.duration > 0 ? "" : "Waiting for the animation to start…");
+  scrubDraw(data);
+});
+
+if (!isExtension) scrubSay(SCRUB_NEEDS_EXTENSION, true);

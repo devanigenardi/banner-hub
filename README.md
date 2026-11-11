@@ -5,6 +5,7 @@ Herramienta de Assemble para revisar banners HTML5, locales o en servidor.
 - **Compare**: carga dos banners y los arranca al mismo tiempo.
 - **Timer**: cuenta la duración de un banner y permite marcar tiempos.
 - **ISI expander**: muestra solo el ISI del banner, ampliado.
+- **Timeline**: barra para avanzar y retroceder la animación del banner, con pausa y velocidad. Solo banners animados con GSAP 3.
 
 ## Instalar como extensión de Chrome
 

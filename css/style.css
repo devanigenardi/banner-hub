@@ -286,3 +286,52 @@ input[type="submit"].button-primary:focus {
   margin: 0 0 0 auto;
   white-space: nowrap;
 }
+
+/* ---------- Timeline (GSAP scrubber) ---------- */
+.scrub-bar {
+  max-width: 760px;
+  margin-bottom: 24px;
+}
+.scrub-bar.disabled {
+  opacity: 0.5;
+}
+.scrub-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.scrub-row button {
+  margin-bottom: 0;
+}
+#scrub-play {
+  min-width: 96px;
+}
+.scrub-readout {
+  font-size: 20px;
+  font-weight: 600;
+  color: #223C61;
+  font-variant-numeric: tabular-nums;
+}
+.scrub-speed {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 0 auto;
+  font-size: 13px;
+  font-weight: 400;
+  color: #777;
+}
+.scrub-speed select {
+  margin-bottom: 0;
+}
+#scrub-range {
+  display: block;
+  width: 100%;
+  margin: 14px 0 8px;
+  accent-color: #2A55A2;
+  cursor: pointer;
+}
+#scrub-range:disabled {
+  cursor: default;
+}
