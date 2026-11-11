@@ -1,0 +1,63 @@
+
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+    <title>Banner - 300x50</title>
+    <meta name="ad.size" content="width=300,height=50">
+    <style type="text/css">
+      body {
+        margin: 0px;
+        padding: 0px;
+        background-color: #FFFFFF;
+      }
+      #banner {
+        position: absolute;
+        display: block;
+        box-sizing: content-box;
+        margin: 0px;
+        padding: 0px;
+        width: 300px;
+        height: 50px;
+        background-color: #FFFFFF;
+        position: absolute;
+        
+      }
+      #banner:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        border: 1px solid #666666;
+        z-index: 9999;
+        pointer-events: none;
+      }
+      #banner.loaded{
+        opacity: 1;
+        transform: none;
+        -webkit-transform: none;
+        filter: none;
+        -webkit-filter: none;
+      }
+      #banner.loaded:hover{
+        
+      }
+    </style>
+  
+	<script type="text/javascript">
+	var clickTag = "https://www.endeavorhealth.org/cardio";
+	window.onload = function(){
+		document.getElementById("banner").className = "loaded";
+	}
+</script>   
+  </head>
+
+  <body>
+    <a id="banner" href="javascript:window.open(window.clickTag);">
+      <img style="display: block;"  src="300x50.jpg" width="300" height="50" alt="Alt Text" />
+    </a>
+  </body>
+
+  </html>
