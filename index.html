@@ -178,7 +178,34 @@
         <div class="clock-hint">Drag the bar to move through the animation. Space plays and pauses. Works with banners animated with GSAP 3.</div>
       </div>
 
-      <div class="banners">
+      <div class="card overlay-card">
+        <div class="overlay-head">
+          <strong>Overlay image</strong>
+          <button type="button" id="ov-pick">Choose image</button>
+          <input type="file" id="ov-file" accept="image/*" hidden>
+          <span class="clock-hint">or drop an image anywhere on this tab, or paste it. It sits on top of the banner for a pixel-perfect check.</span>
+        </div>
+        <div class="overlay-controls">
+          <label for="ov-scale">Scale
+            <input type="number" id="ov-scale" value="1" min="0.05" max="10" step="0.1" disabled>
+          </label>
+          <label for="ov-opacity">Opacity <span id="ov-opacity-value">0.50</span>
+            <input type="range" id="ov-opacity" value="0.5" min="0" max="1" step="0.05" disabled>
+          </label>
+          <label for="ov-x">X
+            <input type="number" id="ov-x" value="0" step="1" disabled>
+          </label>
+          <label for="ov-y">Y
+            <input type="number" id="ov-y" value="0" step="1" disabled>
+          </label>
+          <button type="button" id="ov-toggle" disabled>Hide</button>
+          <button type="button" id="ov-reset" disabled>Reset position</button>
+          <button type="button" id="ov-remove" disabled>Remove</button>
+        </div>
+        <div class="clock-hint">Drag the image with the mouse, or click it and use the arrow keys (Shift moves 10 px). X and Y are measured from the banner's top-left corner.</div>
+      </div>
+
+      <div class="banners" id="scrub-stage">
         <div id="scrub-container" class="banner-slot"></div>
       </div>
     </section>

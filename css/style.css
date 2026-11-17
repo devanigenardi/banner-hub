@@ -335,3 +335,63 @@ input[type="submit"].button-primary:focus {
 #scrub-range:disabled {
   cursor: default;
 }
+
+/* ---------- Timeline: overlay image ---------- */
+.overlay-head,
+.overlay-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin-bottom: 12px;
+}
+.overlay-head button,
+.overlay-controls button,
+.overlay-controls input {
+  margin-bottom: 0;
+}
+.overlay-controls label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+  color: #777;
+}
+.overlay-controls input[type="number"] {
+  width: 78px;
+}
+#ov-opacity {
+  width: 120px;
+  accent-color: #2A55A2;
+}
+#ov-opacity-value {
+  font-variant-numeric: tabular-nums;
+}
+#scrub-stage {
+  position: relative;
+}
+.overlay-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2147483000;
+  max-width: none;
+  cursor: move;
+  user-select: none;
+  -webkit-user-drag: none;
+  touch-action: none;
+  outline: none;
+}
+.overlay-img:focus {
+  outline: 1px dashed #2A55A2;
+  outline-offset: 2px;
+}
+.overlay-img[hidden] {
+  display: none;
+}
+#tab-timeline.dropping {
+  outline: 3px dashed #2A55A2;
+  outline-offset: -8px;
+}

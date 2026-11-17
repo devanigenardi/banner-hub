@@ -660,6 +660,8 @@ function scrubLoad() {
   job.frame.onload = function () { scrubInject(); };
   job.frame.src = job.url;
 
+  overlayLayout();
+
   // Keep knocking until the script inside the banner answers.
   scrub.hello = setInterval(function () {
     scrubInject();
@@ -732,3 +734,165 @@ window.addEventListener("message", function (e) {
 });
 
 if (!isExtension) scrubSay(SCRUB_NEEDS_EXTENSION, true);
+
+
+/* ---------- Timeline: overlay image (pixel-perfect check) ---------- */
+
+// A reference image (the design comp) that floats above the banner. It lives
+// outside the banner slot, so reloading the banner keeps it in place.
+var overlay = { img: null, url: null, x: 0, y: 0 };
+var ovStage = document.getElementById("scrub-stage");
+var ovFile = document.getElementById("ov-file");
+var ovScale = document.getElementById("ov-scale");
+var ovOpacity = document.getElementById("ov-opacity");
+var ovOpacityValue = document.getElementById("ov-opacity-value");
+var ovX = document.getElementById("ov-x");
+var ovY = document.getElementById("ov-y");
+var ovToggle = document.getElementById("ov-toggle");
+var ovControls = [ovScale, ovOpacity, ovX, ovY, ovToggle,
+  document.getElementById("ov-reset"), document.getElementById("ov-remove")];
+
+function overlayScale() {
+  var value = parseFloat(ovScale.value);
+  return value > 0 ? Math.min(10, Math.max(0.05, value)) : 1;
+}
+
+// Top-left corner of the banner inside the stage: X = 0, Y = 0 for the image.
+function overlayOrigin() {
+  if (!scrub.job) return { x: 0, y: 0 };
+  var frame = scrub.job.frame.getBoundingClientRect();
+  var stage = ovStage.getBoundingClientRect();
+  return { x: frame.left - stage.left, y: frame.top - stage.top };
+}
+
+function overlayLayout() {
+  var img = overlay.img;
+  if (!img) return;
+  var origin = overlayOrigin();
+  img.style.left = (origin.x + overlay.x) + "px";
+  img.style.top = (origin.y + overlay.y) + "px";
+  if (img.naturalWidth) img.style.width = (img.naturalWidth * overlayScale()) + "px";
+  img.style.opacity = ovOpacity.value;
+  ovOpacityValue.textContent = (+ovOpacity.value).toFixed(2);
+  if (document.activeElement !== ovX) ovX.value = overlay.x;
+  if (document.activeElement !== ovY) ovY.value = overlay.y;
+}
+
+function overlayMoveTo(x, y) {
+  overlay.x = Math.round(x);
+  overlay.y = Math.round(y);
+  overlayLayout();
+}
+
+function overlayRemove() {
+  if (overlay.img) overlay.img.remove();
+  if (overlay.url) URL.revokeObjectURL(overlay.url);
+  overlay.img = null;
+  overlay.url = null;
+  ovControls.forEach(function (el) { el.disabled = true; });
+}
+
+function overlaySet(file) {
+  if (!file || !/^image\//.test(file.type)) return;
+  overlayRemove();
+
+  var img = document.createElement("img");
+  img.className = "overlay-img";
+  img.alt = "Overlay image";
+  img.draggable = false;
+  img.tabIndex = 0;
+  overlay.img = img;
+  overlay.url = URL.createObjectURL(file);
+  overlay.x = 0;
+  overlay.y = 0;
+  ovToggle.textContent = "Hide";
+  ovControls.forEach(function (el) { el.disabled = false; });
+
+  img.addEventListener("load", function () {
+    overlayLayout();
+    img.focus({ preventScroll: true });
+  });
+
+  // Mouse drag.
+  var grab = null;
+  img.addEventListener("pointerdown", function (e) {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    img.focus({ preventScroll: true });
+    img.setPointerCapture(e.pointerId);
+    grab = { px: e.clientX, py: e.clientY, x: overlay.x, y: overlay.y };
+  });
+  img.addEventListener("pointermove", function (e) {
+    if (grab) overlayMoveTo(grab.x + e.clientX - grab.px, grab.y + e.clientY - grab.py);
+  });
+  function release() { grab = null; }
+  img.addEventListener("pointerup", release);
+  img.addEventListener("pointercancel", release);
+
+  // Arrow keys: 1 px, or 10 px with Shift.
+  img.addEventListener("keydown", function (e) {
+    var step = e.shiftKey ? 10 : 1;
+    var dx = e.key === "ArrowLeft" ? -step : e.key === "ArrowRight" ? step : 0;
+    var dy = e.key === "ArrowUp" ? -step : e.key === "ArrowDown" ? step : 0;
+    if (!dx && !dy) return;
+    e.preventDefault();
+    overlayMoveTo(overlay.x + dx, overlay.y + dy);
+  });
+
+  img.src = overlay.url;
+  ovStage.appendChild(img);
+}
+
+function overlayFirstImage(files) {
+  return Array.prototype.filter.call(files || [], function (f) { return /^image\//.test(f.type); })[0];
+}
+
+document.getElementById("ov-pick").addEventListener("click", function () { ovFile.click(); });
+ovFile.addEventListener("change", function () {
+  overlaySet(overlayFirstImage(ovFile.files));
+  ovFile.value = "";   // so picking the same file again still fires "change"
+});
+ovScale.addEventListener("input", overlayLayout);
+ovOpacity.addEventListener("input", overlayLayout);
+ovX.addEventListener("input", function () { overlayMoveTo(parseFloat(ovX.value) || 0, overlay.y); });
+ovY.addEventListener("input", function () { overlayMoveTo(overlay.x, parseFloat(ovY.value) || 0); });
+ovToggle.addEventListener("click", function () {
+  if (!overlay.img) return;
+  overlay.img.hidden = !overlay.img.hidden;
+  ovToggle.textContent = overlay.img.hidden ? "Show" : "Hide";
+});
+document.getElementById("ov-reset").addEventListener("click", function () { overlayMoveTo(0, 0); });
+document.getElementById("ov-remove").addEventListener("click", overlayRemove);
+window.addEventListener("resize", overlayLayout);
+
+// Drop an image anywhere while the Timeline tab is open. Handling it on the whole
+// page also stops Chrome from navigating away to the dropped file.
+var ovPanel = document.getElementById("tab-timeline");
+function isFileDrag(e) {
+  return activeTab === "timeline" && e.dataTransfer &&
+    Array.prototype.indexOf.call(e.dataTransfer.types || [], "Files") !== -1;
+}
+document.addEventListener("dragover", function (e) {
+  if (!isFileDrag(e)) return;
+  e.preventDefault();
+  e.dataTransfer.dropEffect = "copy";
+  ovPanel.classList.add("dropping");
+});
+document.addEventListener("dragleave", function (e) {
+  if (!e.relatedTarget) ovPanel.classList.remove("dropping");
+});
+document.addEventListener("drop", function (e) {
+  if (!isFileDrag(e)) return;
+  e.preventDefault();
+  ovPanel.classList.remove("dropping");
+  overlaySet(overlayFirstImage(e.dataTransfer.files));
+});
+
+// Paste an image (for example a screenshot) while the Timeline tab is open.
+document.addEventListener("paste", function (e) {
+  if (activeTab !== "timeline" || !e.clipboardData) return;
+  var file = overlayFirstImage(e.clipboardData.files);
+  if (!file) return;
+  e.preventDefault();
+  overlaySet(file);
+});
